@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     var isNewOp = true
     var newResult = false
-    var noClear = true
+    var isClear = false
     var oldNumber = ""
     var op = "+"
     var history = StringBuilder()
@@ -92,7 +92,14 @@ class MainActivity : AppCompatActivity() {
 
     fun operatorEvent(view: View) {
         isNewOp = true
-        oldNumber = findViewById<EditText>(R.id.editText).text.toString()
+        if(newResult && !isClear){
+            oldNumber = result.toString()
+        }
+        else {
+            oldNumber = findViewById<EditText>(R.id.editText).text.toString()
+            isClear = false
+        }
+
         var button_click = findViewById<EditText>(R.id.editText).text.toString()
         var button_select = view as Button
         when (button_select.id) {
@@ -120,10 +127,10 @@ class MainActivity : AppCompatActivity() {
 
     fun ResultEvent(view: View) {
 
-        if (newResult && noClear) {
-            oldNumber = result.toString()
-            result.toDouble()
-        }
+//        if (newResult && noClear) {
+//            oldNumber = result.toString()
+//            result.toDouble()
+//        }
         var newNumber = findViewById<EditText>(R.id.editText).text.toString()
 
         var button_click = findViewById<EditText>(R.id.editText).text.toString()
@@ -157,7 +164,7 @@ class MainActivity : AppCompatActivity() {
     fun CEvent(view: View) {
         findViewById<EditText>(R.id.editText).setText("")
         isNewOp = true
-        noClear = false
+        isClear = true
         result = 0.0
         findViewById<TextView>(R.id.resultTextView).setText("")
         findViewById<TextView>(R.id.historyView).setText("")
