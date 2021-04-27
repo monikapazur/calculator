@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     var noClear = true
     var oldNumber = ""
     var op = "+"
-    val history = StringBuilder()
+    var history = StringBuilder()
     var click = false
     var result = 0.0
     var new_number: String = ""
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         isNewOp = false
         var button_click = findViewById<EditText>(R.id.editText).text.toString()
         var button_select = view as Button
-        
+
 
         when (button_select.id) {
             findViewById<Button>(R.id.button1).id -> {
@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
     fun operatorEvent(view: View) {
         isNewOp = true
         oldNumber = findViewById<EditText>(R.id.editText).text.toString()
-        //history.append(findViewById<EditText>(R.id.editText).text.toString())
         var button_click = findViewById<EditText>(R.id.editText).text.toString()
         var button_select = view as Button
         when (button_select.id) {
@@ -113,9 +112,9 @@ class MainActivity : AppCompatActivity() {
                 op = "%"
             }
         }
-
-        history.append(op)
         findViewById<EditText>(R.id.editText).setText(button_click)
+        history.append(op)
+
         findViewById<TextView>(R.id.historyView).setText(history)
     }
 
@@ -176,11 +175,20 @@ class MainActivity : AppCompatActivity() {
     fun backspaceEvent(view: View) {
         number = findViewById<EditText>(R.id.editText).text.toString()
         new_number = ""
-        if (number.isNotEmpty()) {
+        var temp = history.toString()
+        var newTemp = ""
+
+        if (history.isNotEmpty() && number.isNotEmpty()) {
             new_number = number.substring(0, number.length - 1)
+            newTemp = temp.substring(0,temp.length-1)
+
         }
+        history.clear()
+        history.append(newTemp)
         findViewById<EditText>(R.id.editText).setText(new_number)
-        findViewById<TextView>(R.id.historyView).setText(new_number)
+        findViewById<TextView>(R.id.historyView).setText(history)
+        new_number = oldNumber
+
     }
 
 }
